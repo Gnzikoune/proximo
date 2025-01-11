@@ -3,3 +3,6 @@ node_modules
 
 echo "node_modules/@next/swc-darwin-x64/next-swc.darwin-x64.node"
 node_modules/
+
+# Next.js binary files
+node_modules/@next/swc-*
