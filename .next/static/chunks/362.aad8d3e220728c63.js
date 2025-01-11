@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[362],{4362:function(e,s,i){i.r(s);var c=i(7437);i(2265),s.default=()=>(0,c.jsx)("div",{className:"bg-gray-200 h-64 flex items-center justify-center",children:(0,c.jsx)("p",{children:"Carte de suivi des colis (\xe0 impl\xe9menter)"})})}}]);

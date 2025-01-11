@@ -20,7 +20,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-secondary rounded-lg p-8">
+      {/* <section className="bg-secondary rounded-lg p-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">Comment ça marche ?</h2>
         <div className="aspect-video relative rounded-lg overflow-hidden">
           <Image
@@ -30,7 +30,7 @@ export default function Home() {
             objectFit="cover"
           />
         </div>
-      </section>
+      </section> */}
 
       <section>
         <h2 className="text-2xl font-semibold mb-8 text-center">Pourquoi choisir PROXIMO ?</h2>

@@ -1,18 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/api/requests/route": "app/api/requests/route.js",
-  "/dashboard/client/new-request/page": "app/dashboard/client/new-request/page.js",
-  "/dashboard/client/page": "app/dashboard/client/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/payments/page": "app/dashboard/payments/page.js",
-  "/dashboard/transporter/manage-deliveries/page": "app/dashboard/transporter/manage-deliveries/page.js",
-  "/dashboard/transporter/page": "app/dashboard/transporter/page.js",
-  "/delivery-validation/page": "app/delivery-validation/page.js",
-  "/evaluation/page": "app/evaluation/page.js",
   "/login/page": "app/login/page.js",
-  "/page": "app/page.js",
-  "/referral/page": "app/referral/page.js",
-  "/signup/page": "app/signup/page.js",
-  "/support/page": "app/support/page.js"
+  "/page": "app/page.js"
 }
