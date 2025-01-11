@@ -1,2 +1,4 @@
 node_modules
 .env
+
+echo "node_modules/@next/swc-darwin-x64/next-swc.darwin-x64.node"
