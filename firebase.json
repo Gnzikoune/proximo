@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "public": ".next/server/app",
+    "site": "proximo-a3e05-49204",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
+

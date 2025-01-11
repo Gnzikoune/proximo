@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Home, Package, Truck, User, LogOut } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Navigation() {
   const { user, logout } = useAuth()
@@ -14,10 +15,13 @@ export default function Navigation() {
     <header className="bg-background border-b">
       <div className="container mx-auto px-4 py-4">
         <nav className="flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-primary flex items-center">
-            <Package className="mr-2" />
-            PROXIMO
-          </Link>
+          <Image 
+            src="/logo.jpg"
+            alt="Proximo"
+            width={100}
+            height={100}
+            className="text-2xl font-bold text-primary flex items-center"
+          />
           <div className="space-x-4">
             {user ? (
               <DropdownMenu>
