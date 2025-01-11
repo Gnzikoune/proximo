@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { toast } from '@/components/ui/use-toast'
 import { 
   CreditCard, 
   Clock, 
@@ -14,7 +15,8 @@ import {
   Smartphone,
   CreditCard as CardIcon,
   Wallet,
-  Globe
+  Globe,
+  ChevronRight
 } from 'lucide-react'
 import {
   Dialog,
@@ -94,54 +96,165 @@ interface PaymentFormProps {
   method: PaymentMethod
   amount: number
   onSubmit: () => void
+  isProcessing: boolean
 }
 
-function MobileMoneyForm({ method, amount, onSubmit }: PaymentFormProps) {
+function MobileMoneyForm({ method, amount, onSubmit, isProcessing }: PaymentFormProps) {
+  const handleSubmit = () => {
+    // Simuler une vérification du numéro de téléphone
+    const phoneInput = document.getElementById('phone') as HTMLInputElement
+    if (!phoneInput.value || phoneInput.value.length < 9) {
+      toast({
+        title: "Erreur de paiement",
+        description: "Veuillez entrer un numéro de téléphone valide.",
+        variant: "destructive",
+      })
+      return
+    }
+    onSubmit()
+  }
+
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="phone">Numéro de téléphone</Label>
-        <Input id="phone" type="tel" placeholder="7X XXX XX XX" />
+    <div className="space-y-6">
+      <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg">
+        <div className="text-center">
+          <p className="text-2xl font-bold text-gray-900">{amount.toLocaleString('fr-FR')} FCFA</p>
+          <p className="text-sm text-gray-500">Montant à payer</p>
+        </div>
       </div>
-      <p className="text-sm text-gray-500">
-        Vous allez recevoir une demande de paiement de {amount.toLocaleString('fr-FR')} FCFA sur votre téléphone.
-      </p>
-      <Button onClick={onSubmit} className="w-full">Confirmer</Button>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="phone">Numéro de téléphone</Label>
+          <div className="relative">
+            <Input 
+              id="phone" 
+              type="tel" 
+              placeholder="7X XXX XX XX"
+              className="pl-12"
+              disabled={isProcessing}
+            />
+            <Smartphone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+          </div>
+        </div>
+        <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+          <p className="text-sm text-yellow-800 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 mt-0.5" />
+            Vous allez recevoir une demande de paiement sur votre téléphone.
+          </p>
+        </div>
+        <Button onClick={handleSubmit} className="w-full h-12 text-base" disabled={isProcessing}>
+          {isProcessing ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Traitement en cours...
+            </div>
+          ) : (
+            "Confirmer le paiement"
+          )}
+        </Button>
+      </div>
     </div>
   )
 }
 
-function CardPaymentForm({ method, amount, onSubmit }: PaymentFormProps) {
+function CardPaymentForm({ method, amount, onSubmit, isProcessing }: PaymentFormProps) {
+  const handleSubmit = () => {
+    // Simuler une vérification des informations de carte
+    const cardInput = document.getElementById('card') as HTMLInputElement
+    const expiryInput = document.getElementById('expiry') as HTMLInputElement
+    const cvcInput = document.getElementById('cvc') as HTMLInputElement
+
+    if (!cardInput.value || !expiryInput.value || !cvcInput.value) {
+      toast({
+        title: "Erreur de paiement",
+        description: "Veuillez remplir tous les champs de paiement.",
+        variant: "destructive",
+      })
+      return
+    }
+    onSubmit()
+  }
+
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="card">Numéro de carte</Label>
-        <Input id="card" type="text" placeholder="4242 4242 4242 4242" />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="expiry">Date d'expiration</Label>
-          <Input id="expiry" type="text" placeholder="MM/YY" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="cvc">CVC</Label>
-          <Input id="cvc" type="text" placeholder="123" />
+    <div className="space-y-6">
+      <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg">
+        <div className="text-center">
+          <p className="text-2xl font-bold text-gray-900">{amount.toLocaleString('fr-FR')} FCFA</p>
+          <p className="text-sm text-gray-500">Montant à payer</p>
         </div>
       </div>
-      <Button onClick={onSubmit} className="w-full">Payer {amount.toLocaleString('fr-FR')} FCFA</Button>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="card">Numéro de carte</Label>
+          <div className="relative">
+            <Input 
+              id="card" 
+              type="text" 
+              placeholder="4242 4242 4242 4242"
+              className="pl-12"
+              disabled={isProcessing}
+            />
+            <CardIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="expiry">Date d'expiration</Label>
+            <Input id="expiry" type="text" placeholder="MM/YY" disabled={isProcessing} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="cvc">CVC</Label>
+            <Input id="cvc" type="text" placeholder="123" disabled={isProcessing} />
+          </div>
+        </div>
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <p className="text-sm text-blue-800 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 mt-0.5" />
+            Vos informations de paiement sont sécurisées
+          </p>
+        </div>
+        <Button onClick={handleSubmit} className="w-full h-12 text-base" disabled={isProcessing}>
+          {isProcessing ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Traitement en cours...
+            </div>
+          ) : (
+            `Payer ${amount.toLocaleString('fr-FR')} FCFA`
+          )}
+        </Button>
+      </div>
     </div>
   )
 }
 
-function OnlinePaymentForm({ method, amount, onSubmit }: PaymentFormProps) {
+function OnlinePaymentForm({ method, amount, onSubmit, isProcessing }: PaymentFormProps) {
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-gray-500">
-        Vous allez être redirigé vers {method.name} pour finaliser votre paiement de {amount.toLocaleString('fr-FR')} FCFA.
-      </p>
-      <Button onClick={onSubmit} className="w-full">
-        Continuer vers {method.name}
-      </Button>
+    <div className="space-y-6">
+      <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg">
+        <div className="text-center">
+          <p className="text-2xl font-bold text-gray-900">{amount.toLocaleString('fr-FR')} FCFA</p>
+          <p className="text-sm text-gray-500">Montant à payer</p>
+        </div>
+      </div>
+      <div className="space-y-4">
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <p className="text-sm text-blue-800 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 mt-0.5" />
+            Vous allez être redirigé vers {method.name} pour finaliser votre paiement en toute sécurité.
+          </p>
+        </div>
+        <Button onClick={onSubmit} className="w-full h-12 text-base" disabled={isProcessing}>
+          {isProcessing ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Redirection en cours...
+            </div>
+          ) : (
+            `Continuer vers ${method.name}`
+          )}
+        </Button>
+      </div>
     </div>
   )
 }
@@ -151,6 +264,7 @@ export default function PaymentsClient() {
   const [selectedRequest, setSelectedRequest] = useState<any>(null)
   const [showPaymentDialog, setShowPaymentDialog] = useState(false)
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null)
+  const [isProcessing, setIsProcessing] = useState(false)
   
   const pendingPayments = requests.filter(r => r.payment.status === 'pending')
   const completedPayments = requests.filter(r => r.payment.status === 'completed')
@@ -165,11 +279,35 @@ export default function PaymentsClient() {
     setSelectedMethod(method)
   }
 
+  const handleCloseDialog = () => {
+    if (!isProcessing) {
+      setShowPaymentDialog(false)
+      setSelectedMethod(null)
+    }
+  }
+
   const handlePaymentSubmit = () => {
-    // TODO: Implement payment processing
-    console.log(`Processing payment for request ${selectedRequest?.id} with method ${selectedMethod?.id}`)
-    setShowPaymentDialog(false)
-    setSelectedMethod(null)
+    setIsProcessing(true)
+    // Simuler le traitement du paiement
+    setTimeout(() => {
+      const success = Math.random() > 0.3 // 70% de chance de succès
+      
+      if (success) {
+        toast({
+          title: "Paiement réussi",
+          description: `Votre paiement de ${selectedRequest?.payment.amount.toLocaleString('fr-FR')} FCFA a été effectué avec succès.`,
+        })
+        setShowPaymentDialog(false)
+        setSelectedMethod(null)
+      } else {
+        toast({
+          title: "Échec du paiement",
+          description: "Le paiement n'a pas pu être effectué. Veuillez réessayer ou choisir un autre mode de paiement.",
+          variant: "destructive",
+        })
+      }
+      setIsProcessing(false)
+    }, 2000)
   }
 
   const renderPaymentForm = () => {
@@ -178,7 +316,8 @@ export default function PaymentsClient() {
     const props = {
       method: selectedMethod,
       amount: selectedRequest.payment.amount,
-      onSubmit: handlePaymentSubmit
+      onSubmit: handlePaymentSubmit,
+      isProcessing
     }
 
     switch (selectedMethod.type) {
@@ -201,7 +340,7 @@ export default function PaymentsClient() {
         {/* ... (previous JSX remains the same) ... */}
       </div>
 
-      <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+      <Dialog open={showPaymentDialog} onOpenChange={handleCloseDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>
@@ -215,6 +354,7 @@ export default function PaymentsClient() {
                   key={method.id}
                   className="flex items-center gap-4 p-4 rounded-lg border hover:border-primary transition-colors"
                   onClick={() => handlePaymentMethodSelect(method)}
+                  disabled={isProcessing}
                 >
                   {method.icon}
                   <div className="text-left">

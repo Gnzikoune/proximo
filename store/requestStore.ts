@@ -1,65 +1,66 @@
-import { create, type StateCreator } from 'zustand'
-import { persist, type PersistOptions } from 'zustand/middleware'
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-export interface Request {
+interface Request {
   id: string
-  status: 'pending' | 'in_progress' | 'completed'
-  destination: string
-  date: string
-  amount: number
-  weight: number
-  dimensions: string
-  contentType: string
+  createdAt: string
+  updatedAt: string
+  status: 'pending' | 'accepted' | 'completed' | 'cancelled'
   sender: {
     name: string
-    contact: string
     address: string
+    phone: string
   }
   recipient: {
     name: string
-    contact: string
     address: string
+    phone: string
   }
-  pickup: {
-    address: string
-    datetime: string
-  }
-  delivery: {
-    address: string
-    datetime: string
-  }
-  validationCode: string
-  carrier?: {
-    name: string
-    transportType: string
-    vehicleInfo: string
+  package: {
+    weight: number
+    dimensions: {
+      length: number
+      width: number
+      height: number
+    }
+    type: string
+    description: string
   }
   payment: {
     amount: number
     status: 'pending' | 'completed'
   }
-  trackingUrl: string
+  carrier?: {
+    id: string
+    name: string
+    phone: string
+  }
 }
 
 interface RequestStore {
   requests: Request[]
   addRequest: (request: Request) => void
+  updateRequest: (id: string, updates: Partial<Request>) => void
   getRequestsByStatus: (status: Request['status']) => Request[]
 }
 
-type RequestStorePersist = (
-  config: StateCreator<RequestStore>,
-  options: PersistOptions<RequestStore>
-) => StateCreator<RequestStore>
-
 export const useRequestStore = create<RequestStore>()(
-  (persist as RequestStorePersist)(
+  persist(
     (set, get) => ({
       requests: [],
-      addRequest: (request: Request) => 
-        set((state) => ({ requests: [...state.requests, request] })),
-      getRequestsByStatus: (status: Request['status']) => 
-        get().requests.filter((request) => request.status === status)
+      addRequest: (request) => set((state) => ({
+        requests: [...state.requests, request]
+      })),
+      updateRequest: (id, updates) => set((state) => ({
+        requests: state.requests.map((request) =>
+          request.id === id
+            ? { ...request, ...updates, updatedAt: new Date().toISOString() }
+            : request
+        )
+      })),
+      getRequestsByStatus: (status) => {
+        return get().requests.filter((request) => request.status === status)
+      }
     }),
     {
       name: 'request-store'

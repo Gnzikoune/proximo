@@ -67,15 +67,15 @@ export default function ClientRequests() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm font-medium text-gray-500">Date</p>
-                  <p className="text-sm">{new Date(request.date).toLocaleDateString()}</p>
+                  <p className="text-sm">{new Date(request.createdAt).toLocaleDateString()}</p>
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-500">Montant</p>
-                  <p className="text-sm">{request.amount.toLocaleString('fr-FR')} FCFA</p>
+                  <p className="text-sm">{request.payment.amount.toLocaleString('fr-FR')} FCFA</p>
                 </div>
                 <div className="col-span-2">
                   <p className="text-sm font-medium text-gray-500">Destination</p>
-                  <p className="text-sm">{request.destination}</p>
+                  <p className="text-sm">{request.recipient.address}</p>
                 </div>
               </div>
 
@@ -114,12 +114,12 @@ export default function ClientRequests() {
                 requests.map((request) => (
                   <TableRow key={request.id}>
                     <TableCell className="font-mono">{request.id.slice(0, 8)}...</TableCell>
-                    <TableCell>{new Date(request.date).toLocaleDateString()}</TableCell>
-                    <TableCell>{request.destination}</TableCell>
+                    <TableCell>{new Date(request.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell>{request.recipient.address}</TableCell>
                     <TableCell>
                       <RequestStatus status={request.status} />
                     </TableCell>
-                    <TableCell>{request.amount.toLocaleString('fr-FR')} FCFA</TableCell>
+                    <TableCell>{request.payment.amount.toLocaleString('fr-FR')} FCFA</TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="sm" asChild>
                         <Link href={`/dashboard/client/requests/${request.id}`}>

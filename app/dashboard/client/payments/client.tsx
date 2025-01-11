@@ -285,7 +285,7 @@ export default function PaymentsClient() {
                     <div className="space-y-1">
                       <p className="font-medium">Livraison #{request.id}</p>
                       <p className="text-sm text-gray-500">
-                        {new Date(request.date).toLocaleDateString()}
+                        {new Date(request.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="text-right">
@@ -301,7 +301,7 @@ export default function PaymentsClient() {
                   <div className="mt-4 pt-4 border-t text-sm grid grid-cols-2 gap-4">
                     <div>
                       <span className="text-gray-500">Destination:</span>
-                      <p>{request.destination}</p>
+                      <p>{request.recipient.address}</p>
                     </div>
                     <div>
                       <span className="text-gray-500">Statut:</span>
@@ -344,7 +344,7 @@ export default function PaymentsClient() {
                     <div className="space-y-1">
                       <p className="font-medium">Livraison #{request.id}</p>
                       <p className="text-sm text-gray-500">
-                        {new Date(request.date).toLocaleDateString()}
+                        {new Date(request.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="text-right">
@@ -360,7 +360,7 @@ export default function PaymentsClient() {
                   <div className="mt-4 pt-4 border-t text-sm grid grid-cols-2 gap-4">
                     <div>
                       <span className="text-gray-500">Destination:</span>
-                      <p>{request.destination}</p>
+                      <p>{request.recipient.address}</p>
                     </div>
                     <div>
                       <span className="text-gray-500">Statut:</span>

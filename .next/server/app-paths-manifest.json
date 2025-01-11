@@ -1,7 +1,11 @@
 {
-  "/dashboard/client/requests/[id]/page": "app/dashboard/client/requests/[id]/page.js",
-  "/dashboard/client/payments/page": "app/dashboard/client/payments/page.js",
-  "/dashboard/client/requests/page": "app/dashboard/client/requests/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/signup/page": "app/signup/page.js",
+  "/page": "app/page.js",
+  "/login/page": "app/login/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/transporter/page": "app/dashboard/transporter/page.js",
   "/dashboard/client/page": "app/dashboard/client/page.js",
-  "/dashboard/client/requests/new-request/page": "app/dashboard/client/requests/new-request/page.js"
+  "/dashboard/client/requests/page": "app/dashboard/client/requests/page.js",
+  "/dashboard/client/requests/[id]/page": "app/dashboard/client/requests/[id]/page.js"
 }
