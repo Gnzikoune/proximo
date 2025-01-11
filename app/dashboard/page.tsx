@@ -27,7 +27,14 @@ export default function Dashboard() {
   }, [user, isLoading, router])
 
   if (isLoading) {
-    return <div>Chargement...</div>
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Chargement de votre espace...</p>
+        </div>
+      </div>
+    )
   }
 
   return null
