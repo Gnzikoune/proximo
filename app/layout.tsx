@@ -1,9 +1,6 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
 import { AuthProvider } from '@/contexts/AuthContext'
 import Navigation from '@/components/Navigation'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'PROXIMO - Plateforme de livraison collaborative',
@@ -17,15 +14,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
+      <body>
         <AuthProvider>
           <div className="min-h-screen flex flex-col">
             <Navigation />
             <main className="flex-grow container mx-auto px-4 py-8">
               {children}
             </main>
-            <footer className="bg-gray-100 p-4 text-center">
-              <p>&copy; 2023 PROXIMO. Tous droits réservés.</p>
+            <footer className="bg-secondary border-t border-border py-6 text-center">
+              <p className="text-muted-foreground">&copy; 2024 PROXIMO. Tous droits réservés.</p>
             </footer>
           </div>
         </AuthProvider>
